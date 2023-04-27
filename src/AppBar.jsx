@@ -1,28 +1,49 @@
-import { View, StyleSheet, Text } from 'react-native';
+import { View, StyleSheet, Text, Button } from 'react-native';
 import Constants from 'expo-constants';
 import { YellowBox } from 'react-native-web';
+import { Link } from 'react-router-native';
 
 const styles = StyleSheet.create({
   container: {
     paddingTop: Constants.statusBarHeight,
     backgroundColor: '#888', 
     flexDirection: 'row',
-    justifyContent: 'center',
+    justifyContent: 'space-around',
     alignItems: 'center'
   },
   text: {
     color: '#D1E83E',
+    
+  },
+  linkBar: {
     flexDirection: 'row',
-    justifyContent: 'center',
+    justifyContent: 'space-between',
     alignItems: 'center'
+  },
+  link: {
+    padding: 5,
+    backgroundColor: '#534682',
+    borderRadius: 10,
+    
   }
-  // ...
 });
 
-const AppBar = () => {
+const AppBar = ({name}) => {
   return ( 
   <View style={styles.container}>
-    <Text style={styles.text}>hello</Text>
+    <Text style={styles.text}>{name}</Text>
+    <View style={styles.linkBar}>
+        <Link to={'/'} style={styles.link}>
+            <Text>Main</Text>
+        </Link>
+        <Link to={'/signin'} style={styles.link}>
+            <Text>Sign in</Text>
+        </Link>
+        <Link to={'/jotain'} style={styles.link}>
+            <Text>BMI</Text>
+        </Link>
+    </View>
+    
   </View>
   )
 };

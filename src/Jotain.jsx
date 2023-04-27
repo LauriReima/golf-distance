@@ -30,7 +30,7 @@ const BodyMassIndexForm = ({ onSubmit, intti }) => {
   const [heightField, heightMeta, heightHelpers] = useField('height');
 
   return (
-    <View>
+    <View style={styles.someContainer}>
       <TextInput
         placeholder="Weight (kg)"
         value={massField.value}
@@ -44,16 +44,7 @@ const BodyMassIndexForm = ({ onSubmit, intti }) => {
       <Pressable onPress={onSubmit}>
         <Text>Calculate</Text>
       </Pressable>
-      <Text>{intti}</Text>
-      <View style={styles.someContainer}>
-        <Text>hello</Text>
-        <Text>hello</Text>
-        <Text>hello</Text>
-        <Text>hello</Text>
-        <Text>hello</Text>
-        <Text>hello</Text>
-      </View>
-      
+      <Text>{intti}</Text>    
     </View>
   );
 };
@@ -63,7 +54,7 @@ const BodyMassIndexCalculator = () => {
   const onSubmit = values => {
     const mass = parseFloat(values.mass);
     const height = parseFloat(values.height);
-
+    
     if (!isNaN(mass) && !isNaN(height) && height !== 0) {
       let i = getBodyMassIndex(mass, height)  
       console.log(`Your body mass index is: ${i}`)

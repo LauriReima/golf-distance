@@ -2,9 +2,9 @@
 const GREENS = [
      {
         id: 1,
-        left: 123,
-        right: 123,
-        back: 123,
+        left: 134,
+        right: 133,
+        back: 153,
         front: 123
     },
      {

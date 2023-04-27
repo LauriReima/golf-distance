@@ -2,17 +2,18 @@ import { StyleSheet, View, Text } from 'react-native';
 
 const styles = StyleSheet.create({
     container: {
-        marginBottom: 12,
+        marginBottom: 34,
         flexDirection: 'row',
         justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'center',
+        backgroundColor: 'grey'
     },
 })
 const Footer = () => {
 
     return (
         <View style={styles.container}>
-            <Text>Footer</Text>
+            <Text>LR Desing</Text>
         </View>
     )
 }
