@@ -4,8 +4,14 @@ const GREENS = [
         id: 1,
         left: 134,
         right: 133,
-        back: 153,
-        front: 123
+        back: {
+            lat: 60.426612,
+            long: 22.124186
+        },
+        front: {
+            lat: 60.426440,
+            long: 22.124492
+        }
     },
      {
         id: 2,
