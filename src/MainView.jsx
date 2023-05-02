@@ -1,14 +1,12 @@
 import { useEffect, useState } from 'react';
 import getDistance from 'geolib/es/getDistance';
 import { StatusBar, View, Text, StyleSheet, ScrollView, Pressable} from 'react-native'
-const geolib = require('geolib');
 
 import * as Location from 'expo-location';
 
 import GREENS from './ListOfGreens'
 
 const distance =  (lat1, lon1, lat2, lon2) =>{
-    console.log('dist',lat1, lon1, lat2, lon2);
     return getDistance(
         { latitude: lat1, longitude: lon1 },
         { latitude: lat2, longitude: lon2 },
@@ -37,20 +35,15 @@ const MainView = () => {
             let location = await Location.getCurrentPositionAsync({});
             setCurLng(location.coords.longitude)
             setCurLat(location.coords.latitude)
-            //setLocation(location);
-            console.log(location.coords.longitude);
           })();
     },[])
     
     const OnPressFunction = (e) => {
-        
-          //const etu = distance(e.front.lat, e.front.long, curLat, curLng)
           setFront(distance(e.front.lat, e.front.long, curLat, curLng))
           setLeft(distance(e.left.lat, e.left.long, curLat, curLng))
           setBack(distance(e.back.lat, e.back.long, curLat, curLng))
           setRight(distance(e.right.lat, e.right.long, curLat, curLng))
           setHole(e.id)
-          console.log(front);
     }
     
 
