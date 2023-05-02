@@ -3,6 +3,8 @@ import getDistance from 'geolib/es/getDistance';
 import { StatusBar, View, Text, StyleSheet, ScrollView, Pressable} from 'react-native'
 const geolib = require('geolib');
 
+import * as Location from 'expo-location';
+
 import GREENS from './ListOfGreens'
 
 const distance =  (lat1, lon1, lat2, lon2) =>{
@@ -23,34 +25,31 @@ const MainView = () => {
     const [curLng, setCurLng] = useState()
 
     useEffect(()=>{
-        if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(
-              (position) => {
-                const pos = {
-                  lat: position.coords.latitude,
-                  lng: position.coords.longitude,
-                };
-                setCurLat(pos.lat)
-                setCurLng(pos.lng)
-                console.log(pos);
-              },
-              () => {
-                console.log('eka error');
-              }
-            );
-          } else {
-            // Browser doesn't support Geolocation
-            console.log('toka error');
-          }
+ 
+        (async () => {
+      
+            let { status } = await Location.requestForegroundPermissionsAsync();
+            if (status !== 'granted') {
+              setErrorMsg('Permission to access location was denied');
+              return;
+            }
+      
+            let location = await Location.getCurrentPositionAsync({});
+            setCurLng(location.coords.longitude)
+            setCurLat(location.coords.latitude)
+            //setLocation(location);
+            console.log(location.coords.longitude);
+          })();
     },[])
     
     const OnPressFunction = (e) => {
-          const etu = distance(e.front.lat, e.front.long, curLat, curLng)
-          setFront(etu)
-        //   setLeft(distance(e.left.lat, e.left.long, curLat, curLng))
-        //   setBack(distance(e.back.lat, e.back.long, curLat, curLng))
-        //   setRight(distance(e.right.lat, e.right.long, curLat, curLng))
-        //   setHole(e.id)
+        
+          //const etu = distance(e.front.lat, e.front.long, curLat, curLng)
+          setFront(distance(e.front.lat, e.front.long, curLat, curLng))
+          setLeft(distance(e.left.lat, e.left.long, curLat, curLng))
+          setBack(distance(e.back.lat, e.back.long, curLat, curLng))
+          setRight(distance(e.right.lat, e.right.long, curLat, curLng))
+          setHole(e.id)
           console.log(front);
     }
     
@@ -72,31 +71,20 @@ const MainView = () => {
                     </View>
                 ))
             }
-             {/* <View style={styles.greenContainer}>
+             <View style={styles.greenContainer}>
                 <View style={styles.green}>
-                    {/* <Text style={{position: 'relative',top: -10, left: '45%', fontSize:19, fontWeight: 'bold'}}>{!back ? '000' : back} m</Text>  */}
-                    {/* <Text style={{position: 'relative', top: 10, fontSize:19, fontWeight: 'bold'}}>{!left ? '000' : left} m</Text> */}
-                    {/* <Text style={{position: 'relative',top: -10, left: '90%', fontSize:19, fontWeight: 'bold'}}>{!right ? '000' : right} m</Text>  */}
-                    {/* <Text style={{position: 'relative',bottom: -25, left: '45%', fontSize:19, fontWeight: 'bold'}}>{!front ? '000' : front} m</Text>  */}
-                    {/* <Text style={{position: 'relative',fontSize:19, fontWeight: 'bold'}}>{!hole ? '' : '#' + hole}</Text>  
+                    <Text style={{position: 'relative',top: -10, left: '45%', fontSize:19, fontWeight: 'bold'}}>{!back ? '000' : back} m</Text> 
+                    <Text style={{position: 'relative', top: 10, fontSize:19, fontWeight: 'bold'}}>{!left ? '000' : left} m</Text> 
+                    <Text style={{position: 'relative',top: -10, left: '90%', fontSize:19, fontWeight: 'bold'}}>{!right ? '000' : right} m</Text>  
+                    <Text style={{position: 'relative',bottom: -25, left: '45%', fontSize:19, fontWeight: 'bold'}}>{!front ? '000' : front} m</Text> 
+                    <Text style={{position: 'relative',fontSize:19, fontWeight: 'bold'}}>{!hole ? '' : '#' + hole}</Text>  
 
                 </View>
                
-            </View>  */}
+            </View> 
             
         </View>
-        // <ScrollView>
-        //     {
-        //         GREENS.map((green) =>
-        //            ( <View key={green.id} style={styles.container}>
-        //                 <Pressable style={styles.button}>
-        //                     <Text style={styles.text}>Hole: {green.id}</Text>
-        //                 </Pressable>
-        //             </View>)
-        //         )
-        //     }
-        //     {/* <StatusBar /> */}
-        // </ScrollView>
+
     )
 }
  export default MainView
@@ -106,7 +94,10 @@ const MainView = () => {
         flexDirection: 'row',
         width: '100%',
         alignItems: 'center',
-        justifyContent: 'center'
+        justifyContent: 'center',
+        backgroundColor: '#776666',
+        borderRadius: 15,
+        padding: 20
     },
     green: {
         borderRadius: '45%',
