@@ -20,7 +20,8 @@
     "react-native": "0.69.9",
     "react-native-web": "~0.18.7",
     "react-router-native": "^6.10.0",
-    "expo-location": "~14.3.0"
+    "expo-location": "~14.3.0",
+    "expo-updates": "~0.14.7"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9"

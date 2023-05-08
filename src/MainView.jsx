@@ -1,10 +1,11 @@
 import { useEffect, useState } from 'react';
 import getDistance from 'geolib/es/getDistance';
-import { StatusBar, View, Text, StyleSheet, ScrollView, Pressable} from 'react-native'
+import { StatusBar, View, Text, StyleSheet, ScrollView, Pressable, TouchableHighlight} from 'react-native'
 
 import * as Location from 'expo-location';
 
 import GREENS from './ListOfGreens'
+import { Alert } from 'react-native';
 
 const distance =  (lat1, lon1, lat2, lon2) =>{
     return getDistance(
@@ -19,11 +20,11 @@ const MainView = () => {
     const [right, setRight] = useState(0)
     const [back, setBack] = useState(0)
     const [hole, setHole] = useState(0)
-    const [curLat, setCurLat] = useState()
-    const [curLng, setCurLng] = useState()
-
+    const [curLat, setCurLat] = useState(0)
+    const [curLng, setCurLng] = useState(0)
+    const [errorMsg, setErrorMsg] = useState()
+    
     useEffect(()=>{
- 
         (async () => {
       
             let { status } = await Location.requestForegroundPermissionsAsync();
@@ -35,15 +36,21 @@ const MainView = () => {
             let location = await Location.getCurrentPositionAsync({});
             setCurLng(location.coords.longitude)
             setCurLat(location.coords.latitude)
-          })();
-    },[])
+          })()
+    },[hole])
     
     const OnPressFunction = (e) => {
+        if (curLat === undefined  || curLat === undefined || curLat === 0  || curLat === 0){
+            console.log('error');
+            Alert.alert('Yritä uudestaan')
+        } else {
           setFront(distance(e.front.lat, e.front.long, curLat, curLng))
           setLeft(distance(e.left.lat, e.left.long, curLat, curLng))
           setBack(distance(e.back.lat, e.back.long, curLat, curLng))
           setRight(distance(e.right.lat, e.right.long, curLat, curLng))
           setHole(e.id)
+          //console.log(curLng);
+        }
     }
     
 
@@ -52,7 +59,7 @@ const MainView = () => {
             {
                 GREENS.map((green) => (
                     <View key={green.id} style={styles.item}>
-                        <Pressable 
+                        <TouchableHighlight 
                             style={styles.button} 
                             onPress={() => 
                                 OnPressFunction(green)    
@@ -60,7 +67,7 @@ const MainView = () => {
                             <Text style={styles.text} >
                                 # {green.id}
                             </Text>
-                        </Pressable>
+                        </TouchableHighlight>
                     </View>
                 ))
             }
@@ -88,19 +95,19 @@ const MainView = () => {
         width: '100%',
         alignItems: 'center',
         justifyContent: 'center',
-        backgroundColor: '#776666',
+        backgroundColor: '#7ddd66',
         borderRadius: 15,
         padding: 20
     },
     green: {
-        borderRadius: '45%',
+        borderRadius: '50%',
         backgroundColor: 'green',
-        border: 'solid white',
+        border: ' solid white',
         height: 100,
         width: '50%'
     },
     container: {
-        backgroundColor: 'grey',
+        backgroundColor: '#F3DBDB',
         marginHorizontal: "auto",
         width: '100%',
         flexDirection: "row",
@@ -124,9 +131,9 @@ const MainView = () => {
     },
     button: {
         justifyContent: 'center',
-        backgroundColor: 'green',
+        backgroundColor: '#40CE40',
         borderRadius: 20,
         height:50,
-        maxWidth:290
+        maxWidth:290,
     }
 })

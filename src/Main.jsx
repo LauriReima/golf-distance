@@ -7,10 +7,12 @@ import AppBar from './AppBar';
 import theme from './theme'
 import Footer from './Footer';
 import MainView from './MainView';
+import { useState } from 'react';
 
 
 
 const Main = () => {
+  
   return (
     <View style={styles.container}>
       

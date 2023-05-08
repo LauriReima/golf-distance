@@ -2,6 +2,7 @@ import { View, StyleSheet, Text, Button } from 'react-native';
 import Constants from 'expo-constants';
 import { YellowBox } from 'react-native-web';
 import { Link } from 'react-router-native';
+import { Pressable } from 'react-native';
 
 const styles = StyleSheet.create({
   container: {
@@ -29,9 +30,11 @@ const styles = StyleSheet.create({
 });
 
 const AppBar = ({name}) => {
+  
   return ( 
   <View style={styles.container}>
-    <Text style={styles.text}>{name}</Text>
+    <Text style={styles.text}>Aura Golf</Text>
+    <Pressable onPress={() => {console.log('123')}}><Text>Refresh</Text></Pressable>
     <View style={styles.linkBar}>
         <Link to={'/'} style={styles.link}>
             <Text>Main</Text>
