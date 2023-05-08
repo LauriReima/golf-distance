@@ -24,6 +24,7 @@ const MainView = () => {
     const [curLng, setCurLng] = useState(0)
     const [errorMsg, setErrorMsg] = useState()
     const [loading, setLoading] = useState(false)
+    const [size, setSize] = useState(13)
     
     
         useEffect(()=>{
@@ -62,7 +63,18 @@ const MainView = () => {
           
         }
     }
-
+    useEffect(() => {
+        if (size < 45){
+        setTimeout(() => {
+           setSize(cur => cur +1) 
+           console.log(size);
+        }, 70)
+        }else {
+            setSize(13)
+        }
+    }, [size])
+    
+    
     
     return (
         <View style={styles.container}>
@@ -82,7 +94,7 @@ const MainView = () => {
                 ))
             }
              <View style={styles.greenContainer}>
-                {loading ?( <View><Text>Ladataan</Text></View>) :
+                {loading ?( <View><Text style={{fontSize: size}}>Ladataan</Text></View>) :
                 <View style={styles.green}>
                     <Text style={{position: 'relative',top: -10, left: '45%', fontSize:19, fontWeight: 'bold'}}>{!back ? '000' : back} m</Text> 
                     <Text style={{position: 'relative', top: 10, fontSize:19, fontWeight: 'bold'}}>{!left ? '000' : left} m</Text> 
@@ -99,8 +111,13 @@ const MainView = () => {
     )
 }
  export default MainView
-
+ 
  const styles = StyleSheet.create({
+    ladda: {
+        fontSize: 13,
+        width: 100,
+        
+    },
     greenContainer: {
         flexDirection: 'row',
         width: '100%',
