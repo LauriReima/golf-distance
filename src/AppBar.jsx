@@ -6,7 +6,7 @@ import { Pressable } from 'react-native';
 
 const styles = StyleSheet.create({
   container: {
-    paddingTop: Constants.statusBarHeight,
+    paddingTop: 50,
     backgroundColor: '#888', 
     flexDirection: 'row',
     justifyContent: 'space-around',
@@ -34,7 +34,7 @@ const AppBar = ({name}) => {
   return ( 
   <View style={styles.container}>
     <Text style={styles.text}>Aura Golf</Text>
-    <Pressable onPress={() => {console.log('123')}}><Text>Refresh</Text></Pressable>
+    
     <View style={styles.linkBar}>
         <Link to={'/'} style={styles.link}>
             <Text>Main</Text>

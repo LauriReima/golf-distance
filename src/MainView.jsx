@@ -23,37 +23,47 @@ const MainView = () => {
     const [curLat, setCurLat] = useState(0)
     const [curLng, setCurLng] = useState(0)
     const [errorMsg, setErrorMsg] = useState()
+    const [loading, setLoading] = useState(false)
     
-    useEffect(()=>{
-        (async () => {
-      
-            let { status } = await Location.requestForegroundPermissionsAsync();
-            if (status !== 'granted') {
-              setErrorMsg('Permission to access location was denied');
-              return;
-            }
-      
-            let location = await Location.getCurrentPositionAsync({});
-            setCurLng(location.coords.longitude)
-            setCurLat(location.coords.latitude)
-          })()
-    },[hole])
+    
+        useEffect(()=>{
+                (async () => {
+            
+                    let { status } = await Location.requestForegroundPermissionsAsync();
+                    if (status !== 'granted') {
+                    setErrorMsg('Permission to access location was denied');
+                    return;
+                    }
+            
+                    let location =  await Location.getCurrentPositionAsync({})
+                    
+                    
+                    setCurLng(location.coords.longitude)
+                    setCurLat(location.coords.latitude)
+                    setLoading(false)
+                    
+                })()
+            },[hole])
+    
+    
     
     const OnPressFunction = (e) => {
         if (curLat === undefined  || curLat === undefined || curLat === 0  || curLat === 0){
             console.log('error');
+            //console.log(curLng);
             Alert.alert('Yritä uudestaan')
         } else {
           setFront(distance(e.front.lat, e.front.long, curLat, curLng))
           setLeft(distance(e.left.lat, e.left.long, curLat, curLng))
           setBack(distance(e.back.lat, e.back.long, curLat, curLng))
           setRight(distance(e.right.lat, e.right.long, curLat, curLng))
+          setLoading(true)
           setHole(e.id)
-          //console.log(curLng);
+          
         }
     }
-    
 
+    
     return (
         <View style={styles.container}>
             {
@@ -72,15 +82,16 @@ const MainView = () => {
                 ))
             }
              <View style={styles.greenContainer}>
+                {loading ?( <View><Text>Ladataan</Text></View>) :
                 <View style={styles.green}>
                     <Text style={{position: 'relative',top: -10, left: '45%', fontSize:19, fontWeight: 'bold'}}>{!back ? '000' : back} m</Text> 
                     <Text style={{position: 'relative', top: 10, fontSize:19, fontWeight: 'bold'}}>{!left ? '000' : left} m</Text> 
                     <Text style={{position: 'relative',top: -10, left: '90%', fontSize:19, fontWeight: 'bold'}}>{!right ? '000' : right} m</Text>  
                     <Text style={{position: 'relative',bottom: -25, left: '45%', fontSize:19, fontWeight: 'bold'}}>{!front ? '000' : front} m</Text> 
                     <Text style={{position: 'relative',fontSize:19, fontWeight: 'bold'}}>{!hole ? '' : '#' + hole}</Text>  
-
+                
                 </View>
-               
+}
             </View> 
             
         </View>
