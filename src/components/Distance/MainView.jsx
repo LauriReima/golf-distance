@@ -4,7 +4,7 @@ import { StatusBar, View, Text, StyleSheet, ScrollView, Pressable, TouchableHigh
 
 import * as Location from 'expo-location';
 
-import GREENS from './ListOfGreens'
+import GREENS from '../../ListOfGreens'
 import { Alert } from 'react-native';
 
 const distance =  (lat1, lon1, lat2, lon2) =>{
