@@ -3,19 +3,12 @@ import {Text, StyleSheet, View, TextInput, Button} from 'react-native';
 import RNPickerSelect from "react-native-picker-select";
 import {Picker} from '@react-native-picker/picker'
 
-//import addDataToGolfData from '../../../databaseQuerys';
+import {updateScore, fetchDataFromDatabase} from '../../../databaseQuerys';
 import holedata from './holeData'
 
 const NewFairwayData = () => {
-    // getAllGolfData()
-    //     .then(data => {
-    //     console.log('Kaikki tiedot:', data);
-    //     })
-    //     .catch(error => {
-    //     console.error('Virhe haettaessa tietoja:', error);
-    //     });
-
     const [currentHole, setCurrentHole] = useState(currentHole !== undefined ? currentHole : '1')
+    const [dbData, setDbData] = useState([])
     const [auragolfData, setAuragolfData] = useState(holedata.auragolf);
     const [scorePlaceholder, setScorePlaceholder] = useState('Valitse score');
     const holeNumbers = Object.keys(auragolfData).map((holeNumber) => ({
@@ -27,18 +20,27 @@ const NewFairwayData = () => {
         const updatedData = { ...auragolfData };
         updatedData[currentHole][fieldName] = value;
         setAuragolfData(updatedData);
-       //addDataToGolfData(fieldName, value)
+        updateScore(value, currentHole)
       };
     const clubList = holedata.clubList
     const parList = holedata.parList
     const miss = holedata.miss
     const scoreList = holedata.scoreList
 
-    // useEffect(() => {
-    //     setScorePlaceholder(auragolfData[currentHole].score ? `${auragolfData[currentHole].score}` : 'Valitse score');
-    // }, [currentHole]);
-    // console.log(scorePlaceholder);
-    //console.log(auragolfData);
+    useEffect(() => {
+      fetchData()
+    }, [])
+    const fetchData = async () => {
+      try {
+        const data = await fetchDataFromDatabase()
+        setDbData(data)
+      } catch (err) {
+        console.error("Virhe haussa...NewFairwayData",err)
+      }
+    }
+    console.log(dbData[1]);
+    
+ 
     return (
         <View style={styles.container}>
             <Text style={styles.formLabel}>demo</Text>
@@ -62,7 +64,7 @@ const NewFairwayData = () => {
                 </Picker> 
                 <RNPickerSelect
                     placeholder={{ label: scorePlaceholder, value: null}}
-                    onValueChange={(score) => handleValueChange('score', score)}
+                    onValueChange={(score) => updateScore(score, currentHole)}
                     style={pickerSelectStyles}
                     items={scoreList}
                 /> 
