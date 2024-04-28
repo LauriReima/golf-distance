@@ -1,22 +1,4 @@
-// const hole = {
-//     holenumber: 1,
-//     par: 3,
-//     strokes: 0,
-//     putt: {
-//         count: 0,
-//         first_distance: 0,
-//         GIR: False
-//     },
-//     chip: {
-//         count: 0,
-//         club: null
-//     },
-//     approach: {
-//         distance: 0,
-//         club: null,
-//         miss: null
-//     },
-// }
+
 let auragolf = {
     1: { par: 3, score: null, teeClub: null },
     2: { par: 4, score: null, teeClub: null },

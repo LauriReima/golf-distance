@@ -3,7 +3,7 @@ import {Text, StyleSheet, View, TextInput, Button} from 'react-native';
 import RNPickerSelect from "react-native-picker-select";
 import {Picker} from '@react-native-picker/picker'
 
-
+//import addDataToGolfData from '../../../databaseQuerys';
 import holedata from './holeData'
 
 const NewFairwayData = () => {
@@ -27,6 +27,7 @@ const NewFairwayData = () => {
         const updatedData = { ...auragolfData };
         updatedData[currentHole][fieldName] = value;
         setAuragolfData(updatedData);
+       //addDataToGolfData(fieldName, value)
       };
     const clubList = holedata.clubList
     const parList = holedata.parList
